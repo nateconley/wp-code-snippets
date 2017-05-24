@@ -281,16 +281,22 @@ class Wp_Code_Snippets {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Wp_Code_Snippets_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Wp_Code_Snippets_Admin( $this->get_plugin_name(), $this->get_version(), $this->get_languages() );
 
+		// Styles and scripts
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles', 20 );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts', 20 );
 
+		// Settings page
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'settings_page' );
-
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_settings' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_sections' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_fields' );
+
+		// The TinyMCE
+		$this->loader->add_filter( 'mce_buttons', $plugin_admin, 'register_button' );
+		$this->loader->add_filter( 'mce_external_plugins', $plugin_admin, 'add_button' );
+		$this->loader->add_action( 'wp_ajax_wp_code_snippets_mce', $plugin_admin, 'tinymce_ajax' );
 
 	}
 

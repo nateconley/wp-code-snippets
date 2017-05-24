@@ -50,17 +50,27 @@ class Wp_Code_Snippets_Admin {
 	private $options;
 
 	/**
+	 * The available languages for this plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string    $options    The options for this plugin.
+	 */
+	private $languages;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( $plugin_name, $version, $languages ) {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 		$this->set_options();
+		$this->languages = $languages;
 
 	}
 
@@ -283,6 +293,44 @@ class Wp_Code_Snippets_Admin {
 		</select>
 
 		<?php
+	}
+
+	/**
+	 * Add the TinyMCE button
+	 *
+	 * @since 1.0.0
+	 */
+	public function register_button( $buttons ) {
+
+		array_push( $buttons, 'wp_code_snippets' );
+		return $buttons;
+
+	}
+
+	/**
+	 * Hook the new plugin to TinyMCE
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_button( $plugin_array ) {
+
+		$plugin_array[ 'wp_code_snippets' ] = plugin_dir_url( __FILE__ ) . 'js/tinymce.js';
+		return $plugin_array;
+
+	}
+
+	/**
+	 * Ajax endpoint for the tinymce popup
+	 * (this is so we can access WordPress functions)
+	 *
+	 * @since 1.0.0
+	 */
+	public function tinymce_ajax() {
+
+		$languages = $this->languages;
+		require_once plugin_dir_path( __FILE__ ) . 'partials/tinymce.php';
+		die();
+
 	}
 
 }
