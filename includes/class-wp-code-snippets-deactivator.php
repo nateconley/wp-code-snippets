@@ -31,6 +31,8 @@ class Wp_Code_Snippets_Deactivator {
 	 */
 	public static function deactivate() {
 
+		delete_option( 'wp-code-snippets-options' );
+
 	}
 
 }

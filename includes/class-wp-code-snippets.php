@@ -288,6 +288,10 @@ class Wp_Code_Snippets {
 
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'settings_page' );
 
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_settings' );
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_sections' );
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_fields' );
+
 	}
 
 	/**

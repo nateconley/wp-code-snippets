@@ -41,6 +41,15 @@ class Wp_Code_Snippets_Admin {
 	private $version;
 
 	/**
+	 * The version of this plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string    $options    The options for this plugin.
+	 */
+	private $options;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -51,6 +60,18 @@ class Wp_Code_Snippets_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+		$this->set_options();
+
+	}
+
+	/**
+	 * Sets the class variable $options
+	 *
+	 * @since    1.0.0
+	 */
+	private function set_options() {
+
+		$this->options = get_option( $this->plugin_name . '-options' );
 
 	}
 
@@ -159,6 +180,109 @@ class Wp_Code_Snippets_Admin {
 
 		require_once( plugin_dir_path( __FILE__ ) . 'partials/wp-code-snippets-admin-display.php' );
 
+	}
+
+	/**
+	 * Register plugin settings
+	 *
+	 * @since 1.0.0
+	 */
+	public function register_settings() {
+
+		register_setting(
+			$this->plugin_name . '-options',
+			$this->plugin_name . '-options',
+			array( $this, 'validate_options' )
+		);
+
+	}
+
+	/**
+	 * Validate options
+	 *
+	 * @since 1.0.0
+	 */
+	private function validate_options( $input ) {
+		return $input;
+	}
+
+	/**
+	 * Register settings sections
+	 *
+	 * @since 1.0.0
+	 */
+	public function register_sections() {
+
+		add_settings_section(
+			$this->plugin_name . '-theme',
+			esc_html__( 'Options', 'wp-code-snippets' ),
+			array( $this, 'section_theme_view' ),
+			$this->plugin_name . '-settings'
+		);
+
+	}
+
+	/**
+	 * Settings page view
+	 *
+	 * @since 1.0.0
+	 */
+	public function section_theme_view() {
+
+		echo '';
+
+	}
+
+	/**
+	 * Register settings fields
+	 *
+	 * @since 1.0.0
+	 */
+	public function register_fields() {
+
+		add_settings_field(
+			'',
+			esc_html__( 'Theme', 'wp-code-snippets' ),
+			array( $this, 'theme_field_view' ),
+			$this->plugin_name . '-settings',
+			$this->plugin_name . '-theme'
+		);
+
+	}
+
+	/**
+	 * Theme field view
+	 *
+	 * @since 1.0.0
+	 */
+	public function theme_field_view( $args ) {
+
+		$themes = array(
+			'default',
+			'coy',
+			'dark',
+			'funky',
+			'okaidia',
+			'solarizedlight',
+			'tomorrow',
+			'twilight',
+		);
+
+		?>
+
+		<select name="<?php echo $this->plugin_name . '-options[theme]'; ?>" id="code-snippets-theme">
+			<?php
+				// Option for each available theme
+				foreach( $themes as $theme ) {
+					printf( '<option val="%1$s" %2$s>%1$s</option>',
+						$theme,
+						selected( $this->options[ 'theme' ], $theme )
+					);
+				}
+			?>
+		</select>
+
+		<?php
 	}
 
 }
