@@ -14,11 +14,10 @@
 		}
 		select,
 		textarea {
-			font-size: 12px;
 			margin-bottom: 10px;
 		}
 		* {
-			font-size: 16px;
+			font-size: 16px !important;
 		}
 	</style>
 </head>
