@@ -13,5 +13,8 @@ There is a button in TinyMCE that opens a popup with improved editing.
 
 You can find a settings page in ```Setting > WP Code Snippets```, where you can change the theme.
 
+## Bonuses
+WP Code Snippets is compatible with **Beaver Builder**. Just add a text editor module and click on our TinyMCE button.
+
 ### Quirks
 - The shortcode must be inside a ```<pre>``` tag. This is to maintain spacing.
