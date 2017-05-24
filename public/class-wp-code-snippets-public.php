@@ -158,6 +158,13 @@ class Wp_Code_Snippets_Public {
 			)
 		);
 
+		// Get the theme option
+		$theme = get_option( $this->plugin_name . '-options' )[ 'theme' ];
+
+		if ( $theme != 'default' ) {
+			wp_enqueue_style( $this->plugin_name . '-prism-' . $theme );
+		}
+
 		// Prevent extra whitespace
 		$content = trim( $content );
 
