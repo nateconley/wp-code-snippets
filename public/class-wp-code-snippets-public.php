@@ -149,8 +149,6 @@ class Wp_Code_Snippets_Public {
 	 */
 	public function code_snippets( $atts, $content = '' ) {
 
-		wp_enqueue_style( $this->plugin_name . '-prism' );
-
 		wp_enqueue_script(
 			sprintf( '%s-%s',
 				$this->plugin_name,
@@ -163,6 +161,8 @@ class Wp_Code_Snippets_Public {
 
 		if ( $theme != 'default' ) {
 			wp_enqueue_style( $this->plugin_name . '-prism-' . $theme );
+		} else {
+			wp_enqueue_style( $this->plugin_name . '-prism' );
 		}
 
 		// Prevent extra whitespace
