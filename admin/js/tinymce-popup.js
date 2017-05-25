@@ -2,7 +2,6 @@
 
 var textarea = document.getElementById( 'code-snippet-input' );
 textarea.addEventListener( 'keydown', function( e ) {
-	console.log( e.key );
 	// Handle tabs
 	if ( e.keyCode === 9 ) {
 		e.preventDefault();
@@ -82,5 +81,49 @@ var insertButton = document.getElementById( 'code-snippet-insert' );
 insertButton.addEventListener( 'click', function() {
 	ButtonDialog.insert(ButtonDialog.local_ed)
 } );
+
+
+
+
+// Handle editing an existing shortcode
+function handleExisiting() {
+	var content = tinyMCE.activeEditor.selection.getContent( { format: "text" } );
+	var textarea = document.getElementById( 'code-snippet-input' );
+	if ( content == '' ) {
+		return;
+	}
+
+	// Get the language
+	var language = content.match( /"(.*?)"/ )[0]
+						  .replace( /"/g, '' );
+
+	if ( language == null ) {
+		return;
+	}
+
+	// Strip the shortcode
+	content = content.replace( /\[wp_code_snippets(.*)"\]/, '' );
+	content = content.replace( /\[\/wp_code_snippets\]/, '' );
+	content = content.trim();
+
+	textarea.value = content;
+
+	// Set the select option
+	document.getElementById( 'code-snippet-language' ).value = language;
+}
+
+handleExisiting();
+
+
+
+
+
+
+
+
+
+
+
+
 
 } )();

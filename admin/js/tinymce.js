@@ -9,6 +9,7 @@
          * @param {string} url Absolute URL to where the plugin is located.
          */
         init : function(ed, url) {
+
              ed.addButton('wp_code_snippets', {
                 title : 'WP Code Snippets',
                 cmd : 'wp_code_snippets',
