@@ -1,8 +1,8 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
-	<link href="<?php includes_url() . '/js/tinymce/themes/advanced/skins/wp_theme/dialog.css' ;?>" />
+	<title>Insert Code Snippet</title>
+	<link href="<?php echo includes_url() . '/js/tinymce/themes/advanced/skins/wp_theme/dialog.css' ;?>" />
 	<style>
 		label {
 			font-family: sans-serif;

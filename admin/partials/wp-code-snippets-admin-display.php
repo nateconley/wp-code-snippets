@@ -43,8 +43,7 @@ $themes = array(
 <div id="preview">
 
 <h4>PHP</h4>
-<pre><code class="language-php">
-echo 'Hello World';
+<pre><code class="language-php">echo 'Hello World';
 
 class My_Class {
 	function __construct() {
@@ -60,8 +59,7 @@ $hello = new My_Class();
 </code></pre>
 
 <h4>JavaScript</h4>
-<pre><code class="language-javascript">
-var hello = document.getElementById( 'hello' );
+<pre><code class="language-javascript">var hello = document.getElementById( 'hello' );
 
 hello.addEventListener( 'click', function() {
 	console.log('Hello World');
@@ -69,8 +67,7 @@ hello.addEventListener( 'click', function() {
 </code></pre>
 
 <h4>JSON</h4>
-<pre><code class="language-json">
-{
+<pre><code class="language-json">{
 	"Hello": "World",
 	"Lorem": "Ipsum",
 	"animals": {

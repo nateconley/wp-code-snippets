@@ -105,6 +105,14 @@ class Wp_Code_Snippets_Public {
 			$this->version
 		);
 
+		// Register line numbers
+		wp_register_style(
+			$this->plugin_name . '-prism-line-numbers',
+			plugin_dir_url( __FILE__ ) . 'prism/plugins/css/prism-line-numbers.css',
+			array(),
+			$this->version
+		);
+
 	}
 
 	/**
@@ -140,6 +148,15 @@ class Wp_Code_Snippets_Public {
 
 		}
 
+		// Register line numbers
+		wp_register_script(
+			$this->plugin_name . '-prism-line-numbers',
+			plugin_dir_url( __FILE__ ) . 'prism/plugins/js/prism-line-numbers.min.js',
+			array( $this->plugin_name . '-prism' ),
+			$this->version,
+			true
+		);
+
 	}
 
 	/**
@@ -156,8 +173,10 @@ class Wp_Code_Snippets_Public {
 			)
 		);
 
-		// Get the theme option
-		$theme = get_option( $this->plugin_name . '-options' )[ 'theme' ];
+		// Get options
+		$options = get_option( $this->plugin_name . '-options' );
+		$theme = $options[ 'theme' ];
+		$line_numbers = $options[ 'line-numbers' ];
 
 		if ( $theme != 'default' ) {
 			wp_enqueue_style( $this->plugin_name . '-prism-' . $theme );
@@ -165,10 +184,23 @@ class Wp_Code_Snippets_Public {
 			wp_enqueue_style( $this->plugin_name . '-prism' );
 		}
 
-		// Prevent extra whitespace
-		$content = trim( $content );
+		if ( $line_numbers ) {
+			wp_enqueue_style( $this->plugin_name . '-prism-line-numbers' );
+			wp_enqueue_script( $this->plugin_name . '-prism-line-numbers' );
+		}
 
-		$return = sprintf( '<code class="language-%s">%s</code>',
+		// Replace the opening <pre> tag
+		$content = str_replace( '<pre>', '', $content );
+		
+		// Replace the closing </pre> tag
+		$content = $this->str_last_replace( '</pre>', '', $content );
+
+		// Prevent extra whitespace
+		$content = str_replace( urldecode( '%3C%2Fp%3E%0A') , '', $content );
+		$content = $this->str_last_replace( urldecode( '%0A%3Cp%3E' ), '', $content );
+
+		$return = sprintf( '<pre class="%s"><code class="language-%s">%s</code></pre>',
+			'line-numbers',
 			$atts['language'],
 			$content
 		);
@@ -185,6 +217,23 @@ class Wp_Code_Snippets_Public {
 	public function register_shortcodes() {
 		
 		add_shortcode( 'wp_code_snippets', array( $this, 'code_snippets' ) );
+
+	}
+
+	/**
+	 * Replace the last occurance of a string
+	 *
+	 * @since    1.0.0
+	 */
+	private function str_last_replace( $search, $replace, $subject ) {
+
+		$pos = strrpos($subject, $search);
+
+		if( $pos !== false ) {
+			$subject = substr_replace( $subject, $replace, $pos, strlen( $search ) );
+		}
+
+	    return $subject;
 
 	}
 }

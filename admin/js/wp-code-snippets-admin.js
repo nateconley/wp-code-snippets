@@ -59,10 +59,34 @@ $( document ).ready( function() {
 		}
 		
 		// Insert the link into the head
-		$( 'head' ).append( themes[ theme ].link );
+		$( 'head' ).prepend( themes[ theme ].link );
 
 	}
 
+	// Handle line numbers
+	var lineNumbers = document.getElementById( 'code-snippets-line-numbers' );
+
+	lineNumbers.addEventListener( 'change', handleLineNumbers );
+
+	function handleLineNumbers() {
+		var lineNumbers = document.getElementById( 'code-snippets-line-numbers' );
+
+		var previews = document.querySelectorAll( '#preview pre' );
+
+		if ( lineNumbers.value ) {
+			for ( var i = 0; i < previews.length; i++ ) {
+				previews[ i ].classList.add( 'line-numbers' );
+			}
+		} else {
+			for ( var j = 0; j < previews.length; j++ ) {
+				previews[ j ].classList.remove( 'line-numbers' );
+			}
+		}
+
+		Prism.highlightAll();
+	}
+
+	handleLineNumbers();
 } );
 
 })( jQuery );

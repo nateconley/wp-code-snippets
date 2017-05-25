@@ -45,6 +45,9 @@ textarea.addEventListener( 'keydown', function( e ) {
 			this.value = this.value.substr( 0, start ) + ')' + this.value.substr( end );
 			this.selectionStart = this.selectionEnd = start;
 		}
+	} else if ( e.keyCode ) {
+		// Handles inverse typing
+		console.log( e.keyCode, e.key );
 	}
 } );
 
@@ -65,11 +68,11 @@ var ButtonDialog = {
 		var code = document.getElementById( 'code-snippet-input' ).value;
 
 		// setup the output of our shortcode
-		var output = '<pre>[wp_code_snippets language="' + language + '"]\n';
-			output += code + '\n';
-		output += '[/wp_code_snippets]</pre>';
+		var output = '[wp_code_snippets language="' + language + '"]<pre>';
+			output += code + '';
+		output += '</pre>[/wp_code_snippets]';
 
-		tinyMCEPopup.execCommand('mceReplaceContent', false, output);
+		tinyMCEPopup.execCommand('mceReplaceContent', true, output);
  
 		// Return
 		tinyMCEPopup.close();
@@ -82,9 +85,6 @@ insertButton.addEventListener( 'click', function() {
 	ButtonDialog.insert(ButtonDialog.local_ed)
 } );
 
-
-
-
 // Handle editing an existing shortcode
 function handleExisiting() {
 	var content = tinyMCE.activeEditor.selection.getContent( { format: "text" } );
@@ -94,6 +94,9 @@ function handleExisiting() {
 	}
 
 	// Get the language
+	if ( ! content.match( /"(.*?)"/ ) ) {
+		return;
+	}
 	var language = content.match( /"(.*?)"/ )[0]
 						  .replace( /"/g, '' );
 
@@ -106,6 +109,8 @@ function handleExisiting() {
 	content = content.replace( /\[\/wp_code_snippets\]/, '' );
 	content = content.trim();
 
+	console.log(content);
+
 	textarea.value = content;
 
 	// Set the select option
@@ -114,16 +119,6 @@ function handleExisiting() {
 
 handleExisiting();
 
-
-
-
-
-
-
-
-
-
-
-
+console.log( tinyMCE.activeEditor.selection.getNode() );
 
 } )();

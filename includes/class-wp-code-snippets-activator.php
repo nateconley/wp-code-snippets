@@ -32,6 +32,7 @@ class Wp_Code_Snippets_Activator {
 	public static function activate() {
 
 		update_option( 'wp-code-snippets-options', array( 'theme' => 'default' ) );
+		update_option( 'wp-code-snippets-options', array( 'line-numbers' => false ) );
 
 	}
 

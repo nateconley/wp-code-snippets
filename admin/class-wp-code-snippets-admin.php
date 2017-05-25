@@ -161,6 +161,10 @@ class Wp_Code_Snippets_Admin {
 			);
 
 		}
+
+		// Enqueue line numbers
+		wp_enqueue_style( $this->plugin_name . '-prism-line-numbers' );
+		wp_enqueue_script( $this->plugin_name . '-prism-line-numbers' );
 	}
 
 	/**
@@ -230,6 +234,13 @@ class Wp_Code_Snippets_Admin {
 			$this->plugin_name . '-settings'
 		);
 
+		add_settings_section(
+			$this->plugin_name . '-line-numbers',
+			'',
+			array( $this, 'section_theme_view' ),
+			$this->plugin_name . '-settings'
+		);
+
 	}
 
 	/**
@@ -256,6 +267,14 @@ class Wp_Code_Snippets_Admin {
 			array( $this, 'theme_field_view' ),
 			$this->plugin_name . '-settings',
 			$this->plugin_name . '-theme'
+		);
+
+		add_settings_field(
+			'',
+			esc_html__( 'Line Numbers', 'wp-code-snippets' ),
+			array( $this, 'line_numbers_view' ),
+			$this->plugin_name . '-settings',
+			$this->plugin_name . '-line-numbers'
 		);
 
 	}
@@ -294,6 +313,34 @@ class Wp_Code_Snippets_Admin {
 
 		<?php
 	}
+
+	/**
+	 * Line numbers view
+	 *
+	 * @since 1.0.0
+	 */
+	public function line_numbers_view( $args ) { ?>
+
+		<select name="<?php echo $this->plugin_name . '-options[line-numbers]'; ?>" id="code-snippets-line-numbers">
+			<?php
+				$option = '<option value="%s" %s>%s</option>';
+
+				printf( $option,
+					false,
+					selected( $this->options[ 'line-numbers' ], false ),
+					__( 'Hide', 'wp-code-snippets' )
+				);
+
+				printf( $option,
+					true,
+					selected( $this->options[ 'line-numbers' ], true ),
+					__( 'Show', 'wp-code-snippets' )
+				);
+
+			?>
+		</select>
+
+	<?php }
 
 	/**
 	 * Add the TinyMCE button
