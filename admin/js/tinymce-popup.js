@@ -86,6 +86,11 @@ function checkInverse( e, $this ) {
 			$this.value = $this.value.substr( 0, start ) + $this.value.substr( start + 1, end );
 			$this.selectionStart = $this.selectionEnd = start;
 		}
+	} else if ( e.key == ')' ) {
+		if ( prevChar == '(' ) {
+			$this.value = $this.value.substr( 0, start ) + $this.value.substr( start + 1, end );
+			$this.selectionStart = $this.selectionEnd = start;
+		}
 	} else if ( e.key == "'" ) {
 		if ( prevChar == "'" ) {
 			$this.value = $this.value.substr( 0, start ) + $this.value.substr( start + 2, end );
@@ -96,13 +101,7 @@ function checkInverse( e, $this ) {
 			$this.value = $this.value.substr( 0, start ) + $this.value.substr( start + 2, end );
 			$this.selectionStart = $this.selectionEnd = start + 1;
 		}
-	} else if ( e.key == ')' ) {
-		if ( prevChar == '(' ) {
-			$this.value = $this.value.substr( 0, start ) + $this.value.substr( start + 1, end );
-			$this.selectionStart = $this.selectionEnd = start;
-		}
 	}
-
 }
 
 // Handle the output
