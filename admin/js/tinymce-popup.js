@@ -2,9 +2,10 @@
 
 var textarea = document.getElementById( 'code-snippet-input' );
 textarea.addEventListener( 'keydown', function( e ) {
+
 	// Handle tabs
 	if ( e.keyCode === 9 ) {
-		e.preventDefault();
+		e.preventDefault( e );
 		
 		var start = this.selectionStart;
 		var end = this.selectionEnd;
@@ -45,11 +46,64 @@ textarea.addEventListener( 'keydown', function( e ) {
 			this.value = this.value.substr( 0, start ) + ')' + this.value.substr( end );
 			this.selectionStart = this.selectionEnd = start;
 		}
-	} else if ( e.keyCode ) {
-		// Handles inverse typing
-		console.log( e.keyCode, e.key );
 	}
+
+	var $this = this;
+	checkInverse( e, $this );
 } );
+
+/**
+ * Check inverse typing
+ * Example - { immediately followed by }
+ *
+ * }
+ * ]
+ * '
+ * "
+ * )
+ */
+function checkInverse( e, $this ) {
+
+	if ( e.key != '}' &&
+	     e.key != ']' &&
+	     e.key != "'" &&
+	     e.key != '"' &&
+	     e.key != ')' ) {
+		return;
+	}
+
+	var start = $this.selectionStart;
+	var end = $this.selectionEnd;
+	var prevChar = $this.value.substr( start - 1, 1 );
+
+	if ( e.key == '}' ) {
+		if ( prevChar == '{' ) {
+			$this.value = $this.value.substr( 0, start ) + $this.value.substr( start + 1, end );
+			$this.selectionStart = $this.selectionEnd = start;
+		}
+	} else if ( e.key == ']' ) {
+		if ( prevChar == '[' ) {
+			$this.value = $this.value.substr( 0, start ) + $this.value.substr( start + 1, end );
+			$this.selectionStart = $this.selectionEnd = start;
+		}
+	} else if ( e.key == "'" ) {
+		if ( prevChar == "'" ) {
+			$this.value = $this.value.substr( 0, start ) + $this.value.substr( start + 2, end );
+			$this.selectionStart = $this.selectionEnd = start + 1;
+		}
+	} else if ( e.key == '"' ) {
+		if ( prevChar == '"' ) {
+			$this.value = $this.value.substr( 0, start ) + $this.value.substr( start + 2, end );
+			$this.selectionStart = $this.selectionEnd = start + 1;
+		}
+	} else if ( e.key == ')' ) {
+		if ( prevChar == '(' ) {
+			$this.value = $this.value.substr( 0, start ) + $this.value.substr( start + 1, end );
+			$this.selectionStart = $this.selectionEnd = start;
+		}
+	}
+
+}
 
 // Handle the output
 var ButtonDialog = {
@@ -109,8 +163,6 @@ function handleExisiting() {
 	content = content.replace( /\[\/wp_code_snippets\]/, '' );
 	content = content.trim();
 
-	console.log(content);
-
 	textarea.value = content;
 
 	// Set the select option
@@ -118,7 +170,5 @@ function handleExisiting() {
 }
 
 handleExisiting();
-
-console.log( tinyMCE.activeEditor.selection.getNode() );
 
 } )();
