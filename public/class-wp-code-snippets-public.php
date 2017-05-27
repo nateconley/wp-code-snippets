@@ -178,10 +178,10 @@ class Wp_Code_Snippets_Public {
 		$theme = $options[ 'theme' ];
 		$line_numbers = $options[ 'line-numbers' ];
 
-		if ( $theme != 'default' ) {
-			wp_enqueue_style( $this->plugin_name . '-prism-' . $theme );
-		} else {
+		if ( $theme == 'default' || $theme == '' ) {
 			wp_enqueue_style( $this->plugin_name . '-prism' );
+		} else {
+			wp_enqueue_style( $this->plugin_name . '-prism-' . $theme );
 		}
 
 		if ( $line_numbers ) {
