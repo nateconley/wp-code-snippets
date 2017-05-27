@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       WP Code Snippets
  * Plugin URI:        http://nateconley.com
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Easily add code snippets in 120+ languages to your WordPress posts
  * Version:           1.0.0
  * Author:            Nate Conley
  * Author URI:        http://nateconley.com
