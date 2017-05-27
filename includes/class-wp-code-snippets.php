@@ -79,10 +79,6 @@ class Wp_Code_Snippets {
 		$this->plugin_name = 'wp-code-snippets';
 		$this->version = '1.0.0';
 		$this->languages = array(
-			"Markup"                  => "markup",
-			"CSS"                     => "css",
-			"C-like"                  => "clike",
-			"JavaScript"              => "javascript",
 			"ABAP"                    => "abap",
 			"ActionScript"            => "actionscript",
 			"Ada"                     => "ada",
@@ -100,10 +96,12 @@ class Wp_Code_Snippets {
 			"Brainfuck"               => "brainfuck",
 			"Bro"                     => "bro",
 			"C"                       => "c",
+			"C-like"                  => "clike",
 			"C#"                      => "csharp",
 			"C++"                     => "cpp",
 			"CoffeeScript"            => "coffeescript",
 			"Crystal"                 => "crystal",
+			"CSS"                     => "css",
 			"CSS Extras"              => "css-extras",
 			"D"                       => "d",
 			"Dart"                    => "dart",
@@ -132,6 +130,7 @@ class Wp_Code_Snippets {
 			"J"                       => "j",
 			"Jade"                    => "jade",
 			"Java"                    => "java",
+			"JavaScript"              => "javascript",
 			"Jolie"                   => "jolie",
 			"JSON"                    => "json",
 			"Julia"                   => "julia",
